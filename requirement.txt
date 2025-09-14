@@ -1,1 +1,10 @@
 # requirement.txt
+torch
+transformers,
+datasets
+accelerate
+scikit-learn
+numpy
+pandas
+matplotlib
+tqdm

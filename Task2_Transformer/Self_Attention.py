@@ -6,9 +6,12 @@ import math
 
 # dot product attention
 def dot_production_attention(q:torch.Tensor, k:torch.Tensor, v:torch.Tensor, mask:torch.Tensor=None):
-    # q, k, v: (batch, seq_len, d)
-    scores = torch.matmul(q, k.transpose(-2, -1)) / math.sqrt(q.shape[-1]) # (batch, seq_len, seq_len)
+    # q, k, v: (batch, seq_len, d) or (batch, num_heads, seq_len, d)
+    scores = torch.matmul(q, k.transpose(-2, -1)) / math.sqrt(q.shape[-1]) # (batch, num_heads, seq_len, seq_len)
     if mask is not None:
+        # 若 mask 没有head的维度，则扩展一维
+        if mask.dim() < scores.dim():
+            mask = mask.unsqueeze(1)
         scores = scores.masked_fill(mask == 0, float('-inf'))
     attn = torch.softmax(scores, dim=-1)
     out = torch.matmul(attn, v)  # (batch, seq_len, d)

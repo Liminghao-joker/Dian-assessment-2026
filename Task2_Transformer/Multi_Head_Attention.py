@@ -53,7 +53,6 @@ if __name__ == "__main__":
     print("Attention shape:", attn.shape)  # (batch_size, num_heads, seq_len, seq_len)
     print("Output:", out)
     print("Attention:", attn)
-    print("Test passed!")
 
 
 
